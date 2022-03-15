@@ -41,8 +41,20 @@
               <div
                 class="w-full mb-3"
                 v-for="message in messages"
-                :key="message.id">
-                <p class="inline-block p-2 rounded-md" style="max-width: 75%">
+                :key="message.id"
+                :class="
+                  message.user_from_id === $page.props.auth.userId
+                    ? 'text-right'
+                    : ''
+                ">
+                <p
+                  :class="
+                    message.user_from_id === $page.props.auth.userId
+                      ? 'messageFrom'
+                      : 'messageTo'
+                  "
+                  class="inline-block p-2 rounded-md"
+                  style="max-width: 75%">
                   {{ message.content }}
                 </p>
                 <span class="block mt-1 text-xs text-gray-500">
@@ -118,3 +130,12 @@ export default defineComponent({
   },
 });
 </script>
+
+<style lang="postcss" scoped>
+.messageFrom {
+  @apply bg-indigo-300 bg-opacity-25;
+}
+.messageTo {
+  @apply bg-gray-300 bg-opacity-25;
+}
+</style>
