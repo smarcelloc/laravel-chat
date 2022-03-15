@@ -9,7 +9,3 @@
 composer.lock
 yarn.lock
 package.lock
-
-*.md
-*.yml
-*.yaml
