@@ -45,7 +45,17 @@ class MessageController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $userTo = User::findOrFail($request->user_to_id);
+
+        $message = new Message([
+            'content' => filter_var($request->message, FILTER_SANITIZE_SPECIAL_CHARS),
+            'user_to_id' => $userTo->id,
+            'user_from_id' => Auth::user()->id,
+        ]);
+
+        $message->save();
+
+        return response()->json(['message' => $message]);
     }
 
     /**

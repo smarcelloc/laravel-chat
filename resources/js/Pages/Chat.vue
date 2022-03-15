@@ -21,7 +21,8 @@
                     loadMessages(user.id);
                   }
                 "
-                class="p-6 text-lg text-gray-700 font-semibold border-b border-gray-200 hover:cursor-pointer hover:bg-gray-200 hover:bg-opacity-50">
+                :class="user.id === userActive.id ? 'bg-gray-200' : ''"
+                class="p-6 text-lg text-gray-700 font-semibold border-b border-gray-200 hover:cursor-pointer hover:bg-gray-200 hover:bg-opacity-60">
                 <div class="flex items-center">
                   <span>{{ user.name }}</span>
                   <span
@@ -65,13 +66,15 @@
 
             <!-- Input -->
             <div
+              v-if="userActive.id"
               class="w-full bg-gray-200 bg-opacity-25 p-6 border-t border-gray-200">
-              <form>
+              <form @submit.prevent="submitMessage">
                 <div class="flex rounded-md overflow-hidden border-gray-200">
                   <input
                     type="text"
                     name="message"
                     id="message"
+                    v-model="formMessage.message"
                     class="flex-1 px-4 py-2 rounded-tl-md rounded-bl-md text-sm focus:outline-none border-gray-300 focus:border-indigo-700" />
                   <button
                     type="submit"
@@ -102,6 +105,7 @@ export default defineComponent({
       users: {},
       messages: {},
       userActive: {},
+      formMessage: {},
     };
   },
   mounted() {
@@ -126,6 +130,23 @@ export default defineComponent({
           element.scrollTop = element.scrollHeight;
         });
       }
+    },
+
+    submitMessage() {
+      axios
+        .post('/api/messages', {
+          ...this.formMessage,
+          user_to_id: this.userActive.id,
+        })
+        .then((response) => {
+          this.messages.push({ ...response.data.message });
+          this.resetFormMessage();
+          this.scrollToBottomBoxMessage();
+        });
+    },
+
+    resetFormMessage() {
+      this.formMessage = {};
     },
   },
 });
