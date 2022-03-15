@@ -1,7 +1,9 @@
 <template>
   <app-layout title="API Tokens">
     <template #header>
-      <h2 class="font-semibold text-xl text-gray-800 leading-tight">API Tokens</h2>
+      <h2 class="font-semibold text-xl text-gray-800 leading-tight">
+        API Tokens
+      </h2>
     </template>
 
     <div>

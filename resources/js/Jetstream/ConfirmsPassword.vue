@@ -26,7 +26,9 @@
       </template>
 
       <template #footer>
-        <jet-secondary-button @click="closeModal"> Cancel </jet-secondary-button>
+        <jet-secondary-button @click="closeModal">
+          Cancel
+        </jet-secondary-button>
 
         <jet-button
           class="ml-3"

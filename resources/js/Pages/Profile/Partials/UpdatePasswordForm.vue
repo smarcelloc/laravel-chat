@@ -39,14 +39,20 @@
           class="mt-1 block w-full"
           v-model="form.password_confirmation"
           autocomplete="new-password" />
-        <jet-input-error :message="form.errors.password_confirmation" class="mt-2" />
+        <jet-input-error
+          :message="form.errors.password_confirmation"
+          class="mt-2" />
       </div>
     </template>
 
     <template #actions>
-      <jet-action-message :on="form.recentlySuccessful" class="mr-3"> Saved. </jet-action-message>
+      <jet-action-message :on="form.recentlySuccessful" class="mr-3">
+        Saved.
+      </jet-action-message>
 
-      <jet-button :class="{ 'opacity-25': form.processing }" :disabled="form.processing">
+      <jet-button
+        :class="{ 'opacity-25': form.processing }"
+        :disabled="form.processing">
         Save
       </jet-button>
     </template>

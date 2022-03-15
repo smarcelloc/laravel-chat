@@ -8,15 +8,18 @@
 
     <template #content>
       <div class="max-w-xl text-sm text-gray-600">
-        If necessary, you may log out of all of your other browser sessions across all of your
-        devices. Some of your recent sessions are listed below; however, this list may not be
-        exhaustive. If you feel your account has been compromised, you should also update your
-        password.
+        If necessary, you may log out of all of your other browser sessions
+        across all of your devices. Some of your recent sessions are listed
+        below; however, this list may not be exhaustive. If you feel your
+        account has been compromised, you should also update your password.
       </div>
 
       <!-- Other Browser Sessions -->
       <div class="mt-5 space-y-6" v-if="sessions.length > 0">
-        <div class="flex items-center" v-for="(session, i) in sessions" :key="i">
+        <div
+          class="flex items-center"
+          v-for="(session, i) in sessions"
+          :key="i">
           <div>
             <svg
               fill="none"
@@ -49,7 +52,10 @@
 
           <div class="ml-3">
             <div class="text-sm text-gray-600">
-              {{ session.agent.platform ? session.agent.platform : 'Unknown' }} -
+              {{
+                session.agent.platform ? session.agent.platform : 'Unknown'
+              }}
+              -
               {{ session.agent.browser ? session.agent.browser : 'Unknown' }}
             </div>
 
@@ -57,7 +63,9 @@
               <div class="text-xs text-gray-500">
                 {{ session.ip_address }},
 
-                <span class="text-green-500 font-semibold" v-if="session.is_current_device"
+                <span
+                  class="text-green-500 font-semibold"
+                  v-if="session.is_current_device"
                   >This device</span
                 >
                 <span v-else>Last active {{ session.last_active }}</span>
@@ -68,9 +76,13 @@
       </div>
 
       <div class="flex items-center mt-5">
-        <jet-button @click="confirmLogout"> Log Out Other Browser Sessions </jet-button>
+        <jet-button @click="confirmLogout">
+          Log Out Other Browser Sessions
+        </jet-button>
 
-        <jet-action-message :on="form.recentlySuccessful" class="ml-3"> Done. </jet-action-message>
+        <jet-action-message :on="form.recentlySuccessful" class="ml-3">
+          Done.
+        </jet-action-message>
       </div>
 
       <!-- Log Out Other Devices Confirmation Modal -->
@@ -78,8 +90,8 @@
         <template #title> Log Out Other Browser Sessions </template>
 
         <template #content>
-          Please enter your password to confirm you would like to log out of your other browser
-          sessions across all of your devices.
+          Please enter your password to confirm you would like to log out of
+          your other browser sessions across all of your devices.
 
           <div class="mt-4">
             <jet-input
@@ -95,7 +107,9 @@
         </template>
 
         <template #footer>
-          <jet-secondary-button @click="closeModal"> Cancel </jet-secondary-button>
+          <jet-secondary-button @click="closeModal">
+            Cancel
+          </jet-secondary-button>
 
           <jet-button
             class="ml-3"

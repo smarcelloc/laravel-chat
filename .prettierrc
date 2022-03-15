@@ -5,11 +5,19 @@
   "semi": true,
   "bracketSpacing": true,
   "arrowParens": "always",
-  "printWidth": 100,
+  "printWidth": 80,
+  "tabWidth": 2,
   "bracketSameLine": true,
-  "vueIndentScriptAndStyle": false,
 
-  "phpVersion": "8.1",
-  "braceStyle": "psr-2",
-  "trailingCommaPHP": true
+  "overrides": [
+    {
+      "files": ["*.php"],
+      "options": {
+        "printWidth": 100,
+        "tabWidth": 4,
+        "phpVersion": "8.1",
+        "braceStyle": "psr-2"
+      }
+    }
+  ]
 }

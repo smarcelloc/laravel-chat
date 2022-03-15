@@ -53,10 +53,15 @@
           autocomplete="new-password" />
       </div>
 
-      <div class="mt-4" v-if="$page.props.jetstream.hasTermsAndPrivacyPolicyFeature">
+      <div
+        class="mt-4"
+        v-if="$page.props.jetstream.hasTermsAndPrivacyPolicyFeature">
         <jet-label for="terms">
           <div class="flex items-center">
-            <jet-checkbox name="terms" id="terms" v-model:checked="form.terms" />
+            <jet-checkbox
+              name="terms"
+              id="terms"
+              v-model:checked="form.terms" />
 
             <div class="ml-2">
               I agree to the
@@ -79,7 +84,9 @@
       </div>
 
       <div class="flex items-center justify-end mt-4">
-        <Link :href="route('login')" class="underline text-sm text-gray-600 hover:text-gray-900">
+        <Link
+          :href="route('login')"
+          class="underline text-sm text-gray-600 hover:text-gray-900">
           Already registered?
         </Link>
 

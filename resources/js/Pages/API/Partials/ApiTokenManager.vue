@@ -5,7 +5,8 @@
       <template #title> Create API Token </template>
 
       <template #description>
-        API tokens allow third-party services to authenticate with our application on your behalf.
+        API tokens allow third-party services to authenticate with our
+        application on your behalf.
       </template>
 
       <template #form>
@@ -18,7 +19,9 @@
             class="mt-1 block w-full"
             v-model="createApiTokenForm.name"
             autofocus />
-          <jet-input-error :message="createApiTokenForm.errors.name" class="mt-2" />
+          <jet-input-error
+            :message="createApiTokenForm.errors.name"
+            class="mt-2" />
         </div>
 
         <!-- Token Permissions -->
@@ -39,7 +42,9 @@
       </template>
 
       <template #actions>
-        <jet-action-message :on="createApiTokenForm.recentlySuccessful" class="mr-3">
+        <jet-action-message
+          :on="createApiTokenForm.recentlySuccessful"
+          class="mr-3">
           Created.
         </jet-action-message>
 
@@ -60,7 +65,8 @@
           <template #title> Manage API Tokens </template>
 
           <template #description>
-            You may delete any of your existing tokens if they are no longer needed.
+            You may delete any of your existing tokens if they are no longer
+            needed.
           </template>
 
           <!-- API Token List -->
@@ -104,7 +110,10 @@
       <template #title> API Token </template>
 
       <template #content>
-        <div>Please copy your new API token. For your security, it won't be shown again.</div>
+        <div>
+          Please copy your new API token. For your security, it won't be shown
+          again.
+        </div>
 
         <div
           class="mt-4 bg-gray-100 px-4 py-2 rounded font-mono text-sm text-gray-500"
@@ -114,19 +123,25 @@
       </template>
 
       <template #footer>
-        <jet-secondary-button @click="displayingToken = false"> Close </jet-secondary-button>
+        <jet-secondary-button @click="displayingToken = false">
+          Close
+        </jet-secondary-button>
       </template>
     </jet-dialog-modal>
 
     <!-- API Token Permissions Modal -->
-    <jet-dialog-modal :show="managingPermissionsFor" @close="managingPermissionsFor = null">
+    <jet-dialog-modal
+      :show="managingPermissionsFor"
+      @close="managingPermissionsFor = null">
       <template #title> API Token Permissions </template>
 
       <template #content>
         <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
           <div v-for="permission in availablePermissions" :key="permission">
             <label class="flex items-center">
-              <jet-checkbox :value="permission" v-model:checked="updateApiTokenForm.permissions" />
+              <jet-checkbox
+                :value="permission"
+                v-model:checked="updateApiTokenForm.permissions" />
               <span class="ml-2 text-sm text-gray-600">{{ permission }}</span>
             </label>
           </div>
@@ -134,7 +149,9 @@
       </template>
 
       <template #footer>
-        <jet-secondary-button @click="managingPermissionsFor = null"> Cancel </jet-secondary-button>
+        <jet-secondary-button @click="managingPermissionsFor = null">
+          Cancel
+        </jet-secondary-button>
 
         <jet-button
           class="ml-3"
@@ -147,13 +164,19 @@
     </jet-dialog-modal>
 
     <!-- Delete Token Confirmation Modal -->
-    <jet-confirmation-modal :show="apiTokenBeingDeleted" @close="apiTokenBeingDeleted = null">
+    <jet-confirmation-modal
+      :show="apiTokenBeingDeleted"
+      @close="apiTokenBeingDeleted = null">
       <template #title> Delete API Token </template>
 
-      <template #content> Are you sure you would like to delete this API token? </template>
+      <template #content>
+        Are you sure you would like to delete this API token?
+      </template>
 
       <template #footer>
-        <jet-secondary-button @click="apiTokenBeingDeleted = null"> Cancel </jet-secondary-button>
+        <jet-secondary-button @click="apiTokenBeingDeleted = null">
+          Cancel
+        </jet-secondary-button>
 
         <jet-danger-button
           class="ml-3"
@@ -239,11 +262,14 @@ export default defineComponent({
     },
 
     updateApiToken() {
-      this.updateApiTokenForm.put(route('api-tokens.update', this.managingPermissionsFor), {
-        preserveScroll: true,
-        preserveState: true,
-        onSuccess: () => (this.managingPermissionsFor = null),
-      });
+      this.updateApiTokenForm.put(
+        route('api-tokens.update', this.managingPermissionsFor),
+        {
+          preserveScroll: true,
+          preserveState: true,
+          onSuccess: () => (this.managingPermissionsFor = null),
+        }
+      );
     },
 
     confirmApiTokenDeletion(token) {
@@ -251,11 +277,14 @@ export default defineComponent({
     },
 
     deleteApiToken() {
-      this.deleteApiTokenForm.delete(route('api-tokens.destroy', this.apiTokenBeingDeleted), {
-        preserveScroll: true,
-        preserveState: true,
-        onSuccess: () => (this.apiTokenBeingDeleted = null),
-      });
+      this.deleteApiTokenForm.delete(
+        route('api-tokens.destroy', this.apiTokenBeingDeleted),
+        {
+          preserveScroll: true,
+          preserveState: true,
+          onSuccess: () => (this.apiTokenBeingDeleted = null),
+        }
+      );
     },
   },
 });
