@@ -16,6 +16,11 @@
               <li
                 v-for="user in users"
                 :key="user.id"
+                @click="
+                  () => {
+                    loadMessages(user.id);
+                  }
+                "
                 class="p-6 text-lg text-gray-700 font-semibold border-b border-gray-200 hover:cursor-pointer hover:bg-gray-200 hover:bg-opacity-50">
                 <div class="flex items-center">
                   <span>{{ user.name }}</span>
@@ -33,21 +38,21 @@
             <div
               class="w-full p-6 flex flex-col overflow-y-auto"
               ref="boxMessage">
-              <div class="w-full mb-3">
-                <p
-                  class="inline-block p-2 rounded-md messageFromMe"
-                  style="max-width: 75%">
-                  Message
+              <div
+                class="w-full mb-3"
+                v-for="message in messages"
+                :key="message.id">
+                <p class="inline-block p-2 rounded-md" style="max-width: 75%">
+                  {{ message.content }}
                 </p>
                 <span class="block mt-1 text-xs text-gray-500">
-                  22/11/2022 10:13
+                  {{ message.created_at }}
                 </span>
               </div>
             </div>
 
             <!-- Input -->
             <div
-              v-if="userActive"
               class="w-full bg-gray-200 bg-opacity-25 p-6 border-t border-gray-200">
               <form>
                 <div class="flex rounded-md overflow-hidden border-gray-200">
@@ -83,12 +88,33 @@ export default defineComponent({
   data() {
     return {
       users: {},
+      messages: {},
+      userActive: {},
     };
   },
   mounted() {
-    axios.get('api/users').then((response) => {
+    axios.get('/api/users').then((response) => {
       this.users = response.data.users;
     });
+  },
+  methods: {
+    loadMessages(userId) {
+      this.userActive = { id: userId };
+
+      axios.get(`/api/messages/${userId}`).then((response) => {
+        this.messages = response.data.messages;
+        this.scrollToBottomBoxMessage();
+      });
+    },
+
+    scrollToBottomBoxMessage() {
+      if (this.messages.length) {
+        this.$nextTick(() => {
+          const element = this.$refs['boxMessage'];
+          element.scrollTop = element.scrollHeight;
+        });
+      }
+    },
   },
 });
 </script>
