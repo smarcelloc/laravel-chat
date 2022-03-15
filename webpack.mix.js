@@ -20,6 +20,10 @@ mix
   ])
   .webpackConfig(require('./webpack.config'));
 
+if (!mix.inProduction()) {
+  mix.browserSync({ proxy: 'laravel.test' });
+}
+
 if (mix.inProduction()) {
   mix.version();
 }
