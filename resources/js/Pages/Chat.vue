@@ -14,9 +14,11 @@
             class="w-3/12 bg-gray-200 bg-opacity-25 border-r border-gray-200 overflow-y-auto">
             <ul>
               <li
+                v-for="user in users"
+                :key="user.id"
                 class="p-6 text-lg text-gray-700 font-semibold border-b border-gray-200 hover:cursor-pointer hover:bg-gray-200 hover:bg-opacity-50">
                 <div class="flex items-center">
-                  <span>Name User</span>
+                  <span>{{ user.name }}</span>
                   <span
                     class="h-2 w-2 ml-2 rounded-full bg-blue-500"
                     aria-label="New Notifications"></span>
@@ -72,10 +74,21 @@
 <script>
 import { defineComponent } from 'vue';
 import AppLayout from '@/Layouts/AppLayout.vue';
+import axios from 'axios';
 
 export default defineComponent({
   components: {
     AppLayout,
+  },
+  data() {
+    return {
+      users: {},
+    };
+  },
+  mounted() {
+    axios.get('api/users').then((response) => {
+      this.users = response.data.users;
+    });
   },
 });
 </script>
