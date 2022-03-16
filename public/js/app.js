@@ -23835,10 +23835,12 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
     });
     var userId = this.userAuth.userId;
     Echo["private"]("Chat.Send.Message.User.".concat(userId)).listen('.send.message', function (e) {
-      _this.messages.push(e.message);
-
       if (_this.userActive && _this.userActive.id === e.message.user_from_id) {
+        _this.messages.push(e.message);
+
         _this.scrollToBottomBoxMessage();
+      } else {
+        _this.setUserNotification(e.message.user_from_id, true);
       }
     });
   },
@@ -23851,6 +23853,8 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
       };
       axios__WEBPACK_IMPORTED_MODULE_2___default().get("/api/messages/".concat(userId)).then(function (response) {
         _this2.messages = response.data.messages;
+
+        _this2.setUserNotification(userId, false);
 
         _this2.scrollToBottomBoxMessage();
       });
@@ -23878,6 +23882,17 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
     },
     resetFormMessage: function resetFormMessage() {
       this.formMessage = {};
+    },
+    setUserNotification: function setUserNotification(userID, isNew) {
+      var index = this.users.findIndex(function (user) {
+        return user.id === userID;
+      });
+
+      if (index >= 0) {
+        this.users[index] = _objectSpread(_objectSpread({}, this.users[index]), {}, {
+          notification: isNew
+        });
+      }
     }
   }
 }));
@@ -27720,35 +27735,25 @@ var _hoisted_6 = ["onClick"];
 var _hoisted_7 = {
   "class": "flex items-center"
 };
-
-var _hoisted_8 = /*#__PURE__*/_withScopeId(function () {
-  return /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", {
-    "class": "h-2 w-2 ml-2 rounded-full bg-blue-500",
-    "aria-label": "New Notifications"
-  }, null, -1
-  /* HOISTED */
-  );
-});
-
-var _hoisted_9 = {
+var _hoisted_8 = {
   "class": "w-9/12 flex flex-col justify-between"
 };
-var _hoisted_10 = {
+var _hoisted_9 = {
   "class": "w-full p-6 flex flex-col overflow-y-auto",
   ref: "boxMessage"
 };
-var _hoisted_11 = {
+var _hoisted_10 = {
   "class": "block mt-1 text-xs text-gray-500"
 };
-var _hoisted_12 = {
+var _hoisted_11 = {
   key: 0,
   "class": "w-full bg-gray-200 bg-opacity-25 p-6 border-t border-gray-200"
 };
-var _hoisted_13 = {
+var _hoisted_12 = {
   "class": "flex rounded-md overflow-hidden border-gray-200"
 };
 
-var _hoisted_14 = /*#__PURE__*/_withScopeId(function () {
+var _hoisted_13 = /*#__PURE__*/_withScopeId(function () {
   return /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
     type: "submit",
     "class": "bg-indigo-700 bg-opacity-80 hover:bg-opacity-100 text-white px-4 py-2"
@@ -27776,12 +27781,17 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
           "class": (0,vue__WEBPACK_IMPORTED_MODULE_0__.normalizeClass)([user.id === _ctx.userActive.id ? 'bg-gray-200' : '', "p-6 text-lg text-gray-700 font-semibold border-b border-gray-200 hover:cursor-pointer hover:bg-gray-200 hover:bg-opacity-60"])
         }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_7, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(user.name), 1
         /* TEXT */
-        ), _hoisted_8])], 10
+        ), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", {
+          "class": (0,vue__WEBPACK_IMPORTED_MODULE_0__.normalizeClass)([user.notification ? 'bg-blue-500' : '', "h-2 w-2 ml-2 rounded-full"]),
+          "aria-label": "New Notifications"
+        }, null, 2
+        /* CLASS */
+        )])], 10
         /* CLASS, PROPS */
         , _hoisted_6);
       }), 128
       /* KEYED_FRAGMENT */
-      ))])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Message "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_9, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Box Message "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_10, [((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)(vue__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.renderList)(_ctx.messages, function (message) {
+      ))])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Message "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_8, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Box Message "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_9, [((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)(vue__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.renderList)(_ctx.messages, function (message) {
         return (0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", {
           "class": (0,vue__WEBPACK_IMPORTED_MODULE_0__.normalizeClass)(["w-full mb-3", message.user_from_id === _ctx.$page.props.auth.userId ? 'text-right' : '']),
           key: message.id
@@ -27792,7 +27802,7 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
           }
         }, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(message.content), 3
         /* TEXT, CLASS */
-        ), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", _hoisted_11, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(message.created_at), 1
+        ), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", _hoisted_10, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(message.created_at), 1
         /* TEXT */
         )], 2
         /* CLASS */
@@ -27801,11 +27811,11 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
       /* KEYED_FRAGMENT */
       ))], 512
       /* NEED_PATCH */
-      ), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Input "), _ctx.userActive.id ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_12, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("form", {
+      ), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Input "), _ctx.userActive.id ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_11, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("form", {
         onSubmit: _cache[1] || (_cache[1] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.withModifiers)(function () {
           return _ctx.submitMessage && _ctx.submitMessage.apply(_ctx, arguments);
         }, ["prevent"]))
-      }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_13, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.withDirectives)((0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("input", {
+      }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_12, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.withDirectives)((0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("input", {
         type: "text",
         name: "message",
         id: "message",
@@ -27815,7 +27825,7 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
         "class": "flex-1 px-4 py-2 rounded-tl-md rounded-bl-md text-sm focus:outline-none border-gray-300 focus:border-indigo-700"
       }, null, 512
       /* NEED_PATCH */
-      ), [[vue__WEBPACK_IMPORTED_MODULE_0__.vModelText, _ctx.formMessage.message]]), _hoisted_14])], 32
+      ), [[vue__WEBPACK_IMPORTED_MODULE_0__.vModelText, _ctx.formMessage.message]]), _hoisted_13])], 32
       /* HYDRATE_EVENTS */
       )])) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true)])])])])];
     }),

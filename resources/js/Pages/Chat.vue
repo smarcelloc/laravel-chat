@@ -26,7 +26,8 @@
                 <div class="flex items-center">
                   <span>{{ user.name }}</span>
                   <span
-                    class="h-2 w-2 ml-2 rounded-full bg-blue-500"
+                    :class="user.notification ? 'bg-blue-500' : ''"
+                    class="h-2 w-2 ml-2 rounded-full"
                     aria-label="New Notifications"></span>
                 </div>
               </li>
@@ -124,9 +125,11 @@ export default defineComponent({
     Echo.private(`Chat.Send.Message.User.${userId}`).listen(
       '.send.message',
       (e) => {
-        this.messages.push(e.message);
         if (this.userActive && this.userActive.id === e.message.user_from_id) {
+          this.messages.push(e.message);
           this.scrollToBottomBoxMessage();
+        } else {
+          this.setUserNotification(e.message.user_from_id, true);
         }
       }
     );
@@ -137,6 +140,7 @@ export default defineComponent({
 
       axios.get(`/api/messages/${userId}`).then((response) => {
         this.messages = response.data.messages;
+        this.setUserNotification(userId, false);
         this.scrollToBottomBoxMessage();
       });
     },
@@ -163,6 +167,14 @@ export default defineComponent({
 
     resetFormMessage() {
       this.formMessage = {};
+    },
+
+    setUserNotification(userID, isNew) {
+      const index = this.users.findIndex((user) => user.id === userID);
+
+      if (index >= 0) {
+        this.users[index] = { ...this.users[index], notification: isNew };
+      }
     },
   },
 });
