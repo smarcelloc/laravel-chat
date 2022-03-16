@@ -95,6 +95,7 @@
 import { defineComponent } from 'vue';
 import AppLayout from '@/Layouts/AppLayout.vue';
 import axios from 'axios';
+import { usePage } from '@inertiajs/inertia-vue3';
 
 export default defineComponent({
   components: {
@@ -102,16 +103,33 @@ export default defineComponent({
   },
   data() {
     return {
-      users: {},
-      messages: {},
+      users: [],
+      messages: [],
       userActive: {},
       formMessage: {},
     };
+  },
+  computed: {
+    userAuth() {
+      return usePage().props.value.auth;
+    },
   },
   mounted() {
     axios.get('/api/users').then((response) => {
       this.users = response.data.users;
     });
+
+    const { userId } = this.userAuth;
+
+    Echo.private(`Chat.Send.Message.User.${userId}`).listen(
+      '.send.message',
+      (e) => {
+        this.messages.push(e.message);
+        if (this.userActive && this.userActive.id === e.message.user_from_id) {
+          this.scrollToBottomBoxMessage();
+        }
+      }
+    );
   },
   methods: {
     loadMessages(userId) {
@@ -124,12 +142,10 @@ export default defineComponent({
     },
 
     scrollToBottomBoxMessage() {
-      if (this.messages.length) {
-        this.$nextTick(() => {
-          const element = this.$refs['boxMessage'];
-          element.scrollTop = element.scrollHeight;
-        });
-      }
+      this.$nextTick(() => {
+        const element = this.$refs['boxMessage'];
+        element.scrollTop = element.scrollHeight;
+      });
     },
 
     submitMessage() {

@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Api;
 
+use App\Events\Chat\SendMessage;
 use App\Http\Controllers\Controller;
 use App\Models\Message;
 use App\Models\User;
@@ -54,6 +55,8 @@ class MessageController extends Controller
         ]);
 
         $message->save();
+
+        event(new SendMessage($message, $userTo->id));
 
         return response()->json(['message' => $message]);
     }

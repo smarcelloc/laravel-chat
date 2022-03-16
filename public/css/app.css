@@ -1406,10 +1406,6 @@ select {
   --tw-bg-opacity: 1;
   background-color: rgb(229 231 235 / var(--tw-bg-opacity));
 }
-.bg-indigo-200 {
-  --tw-bg-opacity: 1;
-  background-color: rgb(199 210 254 / var(--tw-bg-opacity));
-}
 .bg-blue-500 {
   --tw-bg-opacity: 1;
   background-color: rgb(59 130 246 / var(--tw-bg-opacity));
@@ -1431,9 +1427,6 @@ select {
 }
 .bg-opacity-80 {
   --tw-bg-opacity: 0.8;
-}
-.bg-opacity-50 {
-  --tw-bg-opacity: 0.5;
 }
 .bg-cover {
   background-size: cover;
@@ -1815,17 +1808,11 @@ select {
   --tw-bg-opacity: 1;
   background-color: rgb(229 231 235 / var(--tw-bg-opacity));
 }
-.hover\:bg-opacity-50:hover {
-  --tw-bg-opacity: 0.5;
+.hover\:bg-opacity-60:hover {
+  --tw-bg-opacity: 0.6;
 }
 .hover\:bg-opacity-100:hover {
   --tw-bg-opacity: 1;
-}
-.hover\:bg-opacity-80:hover {
-  --tw-bg-opacity: 0.8;
-}
-.hover\:bg-opacity-60:hover {
-  --tw-bg-opacity: 0.6;
 }
 .hover\:text-gray-500:hover {
   --tw-text-opacity: 1;
